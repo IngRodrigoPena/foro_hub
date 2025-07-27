@@ -4,6 +4,9 @@ public enum CategoriaCurso {
     PROGRAMACION,
     DEVOPS,
     DATA_SCIENCE,
-    SEGURIDAD
+    SEGURIDAD,
+    FRONTEND,
+    IA,
+    BACKEND
 }
 
