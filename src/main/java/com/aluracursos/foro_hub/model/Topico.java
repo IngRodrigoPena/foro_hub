@@ -16,7 +16,8 @@ public class Topico {
     private Long id;
     private String titulo;
     private String mensaje;
-    private LocalDateTime fechaCreacion = LocalDateTime.now();
+    //private LocalDateTime fechaCreacion = LocalDateTime.now();
+    private LocalDateTime fechaCreacion;
     //private String status;
     @Enumerated(EnumType.STRING)
     private StatusTopico status;
@@ -33,6 +34,14 @@ public class Topico {
 
     @OneToMany(mappedBy = "topico")
     private List<Respuesta> respuestas;
+
+    //Si quieres que siempre se asigne automáticamente
+    // la fecha al guardar el objeto, puedes usar la anotacion @PrePersist
+    @PrePersist
+    public void asignarFecha() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
+
 }
 
 

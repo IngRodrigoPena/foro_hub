@@ -4,5 +4,8 @@ public enum StatusTopico {
     SIN_RESPUESTA,
     RESUELTO,
     CERRADO,
-    SPAM
+    SPAM,
+    NO_RESUELTO,
+    NO_SOLUCIONADO,
+    NO_RESPONDIDO
 }
