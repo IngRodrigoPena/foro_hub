@@ -1,4 +1,5 @@
-package com.aluracursos.foro_hub.model;
+package com.aluracursos.foro_hub.domain;
+import com.aluracursos.foro_hub.domain.enums.Perfil;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -8,19 +9,25 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Curso {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
-    //private String categoria;
+    private String correo;
+    private String contrasena;
+    //private String perfil;
     @Enumerated(EnumType.STRING)
-    private CategoriaCurso categoria;
+    private Perfil perfil;
 
     private Boolean activo = true;
 
-    @OneToMany(mappedBy = "curso")
+    @OneToMany(mappedBy = "autor")
     private List<Topico> topicos;
+
+    @OneToMany(mappedBy = "autor")
+    private List<Respuesta> respuestas;
 }
+

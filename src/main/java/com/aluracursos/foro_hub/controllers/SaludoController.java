@@ -1,4 +1,4 @@
-package com.aluracursos.foro_hub.controller;
+package com.aluracursos.foro_hub.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

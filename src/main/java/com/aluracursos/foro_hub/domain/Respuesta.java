@@ -1,4 +1,4 @@
-package com.aluracursos.foro_hub.model;
+package com.aluracursos.foro_hub.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;

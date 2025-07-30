@@ -1,6 +1,6 @@
-package com.aluracursos.foro_hub.controller;
-import com.aluracursos.foro_hub.dto.DatosRegistroUsuario;
-import com.aluracursos.foro_hub.model.Usuario;
+package com.aluracursos.foro_hub.controllers;
+import com.aluracursos.foro_hub.dto.request.DatosRegistroUsuario;
+import com.aluracursos.foro_hub.domain.Usuario;
 import com.aluracursos.foro_hub.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

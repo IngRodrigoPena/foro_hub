@@ -1,7 +1,7 @@
-package com.aluracursos.foro_hub.controller;
-import com.aluracursos.foro_hub.dto.DatosRegistroTopico;
-import com.aluracursos.foro_hub.model.StatusTopico;
-import com.aluracursos.foro_hub.model.Topico;
+package com.aluracursos.foro_hub.controllers;
+import com.aluracursos.foro_hub.dto.request.DatosRegistroTopico;
+import com.aluracursos.foro_hub.domain.enums.StatusTopico;
+import com.aluracursos.foro_hub.domain.Topico;
 import com.aluracursos.foro_hub.repository.CursoRepository;
 import com.aluracursos.foro_hub.repository.TopicoRepository;
 import com.aluracursos.foro_hub.repository.UsuarioRepository;

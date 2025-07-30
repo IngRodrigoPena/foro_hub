@@ -1,5 +1,5 @@
-package com.aluracursos.foro_hub.dto;
-import com.aluracursos.foro_hub.model.Perfil;
+package com.aluracursos.foro_hub.dto.request;
+import com.aluracursos.foro_hub.domain.enums.Perfil;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
