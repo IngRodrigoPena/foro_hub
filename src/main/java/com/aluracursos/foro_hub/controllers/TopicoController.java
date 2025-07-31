@@ -55,10 +55,16 @@
 //}
 package com.aluracursos.foro_hub.controllers;
 import com.aluracursos.foro_hub.dto.request.DatosRegistroTopico;
+import com.aluracursos.foro_hub.dto.response.DatosListadoTopico;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroTopico;
+import com.aluracursos.foro_hub.repository.TopicoRepository;
 import com.aluracursos.foro_hub.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,10 +74,32 @@ public class TopicoController {
 
     @Autowired
     private TopicoService topicoService;
+    @Autowired
+    private TopicoRepository topicoRepository;
+
 
     @PostMapping
     public ResponseEntity<DatosRespuestaRegistroTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
         var respuesta = topicoService.registrar(datos);
         return ResponseEntity.status(201).body(respuesta);
     }
+
+    @GetMapping
+    public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(
+            @PageableDefault(size = 10, sort = "fechaCreacion", direction = Sort.Direction.ASC) Pageable paginacion) {
+
+        Page<DatosListadoTopico> pagina = topicoRepository.findByActivoTrue(paginacion)
+                .map(topico -> new DatosListadoTopico(
+                        topico.getId(),
+                        topico.getTitulo(),
+                        topico.getMensaje(),
+                        topico.getFechaCreacion(),
+                        topico.getStatus(),
+                        topico.getAutor().getNombre(),
+                        topico.getCurso().getNombre()
+                ));
+
+        return ResponseEntity.ok(pagina);
+    }
+
 }
