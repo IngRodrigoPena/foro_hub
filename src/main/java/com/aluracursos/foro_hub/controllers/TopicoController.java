@@ -55,6 +55,7 @@
 //}
 package com.aluracursos.foro_hub.controllers;
 import com.aluracursos.foro_hub.dto.request.DatosRegistroTopico;
+import com.aluracursos.foro_hub.dto.response.DatosDetalleTopico;
 import com.aluracursos.foro_hub.dto.response.DatosListadoTopico;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroTopico;
 import com.aluracursos.foro_hub.repository.TopicoRepository;
@@ -101,5 +102,24 @@ public class TopicoController {
 
         return ResponseEntity.ok(pagina);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosDetalleTopico> obtenerDetalleTopico(@PathVariable Long id) {
+        var topico = topicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tópico no encontrado con ID: " + id));
+
+        var detalle = new DatosDetalleTopico(
+                topico.getId(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getFechaCreacion(),
+                topico.getStatus().toString(),
+                topico.getAutor().getNombre(),
+                topico.getCurso().getNombre()
+        );
+
+        return ResponseEntity.ok(detalle);
+    }
+
 
 }
