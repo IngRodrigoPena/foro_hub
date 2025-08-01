@@ -47,6 +47,7 @@ public class TopicoService {
                 topico.getTitulo(),
                 topico.getMensaje(),
                 topico.getFechaCreacion(),
+                topico.getStatus().toString(),
                 topico.getAutor().getNombre(),
                 topico.getCurso().getNombre()
         );

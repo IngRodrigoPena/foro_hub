@@ -6,6 +6,7 @@ public record DatosRespuestaRegistroTopico(
         String titulo,
         String mensaje,
         LocalDateTime fechaCreacion,
+        String status,
         String autor,
         String curso
 ) {
