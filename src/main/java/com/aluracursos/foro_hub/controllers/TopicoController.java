@@ -92,94 +92,81 @@ public class TopicoController {
 
     @GetMapping
     public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(
-            @PageableDefault(size = 10, sort = "fechaCreacion", direction = Sort.Direction.ASC) Pageable paginacion) {
+            @PageableDefault(size = 10,
+                             sort = "fechaCreacion",
+                             direction = Sort.Direction.ASC) Pageable paginacion) {
 
-        Page<DatosListadoTopico> pagina = topicoRepository.findByActivoTrue(paginacion)
-                .map(topico -> new DatosListadoTopico(
-                        topico.getId(),
-                        topico.getTitulo(),
-                        topico.getMensaje(),
-                        topico.getFechaCreacion(),
-                        topico.getStatus(),
-                        topico.getAutor().getNombre(),
-                        topico.getCurso().getNombre()
-                ));
-
+        var pagina = topicoService.listar(paginacion);
         return ResponseEntity.ok(pagina);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DatosDetalleTopico> obtenerDetalleTopico(@PathVariable Long id) {
-        var topico = topicoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tópico no encontrado con ID: " + id));
-
-        var detalle = new DatosDetalleTopico(
-                topico.getId(),
-                topico.getTitulo(),
-                topico.getMensaje(),
-                topico.getFechaCreacion(),
-                topico.getStatus().toString(),
-                topico.getAutor().getNombre(),
-                topico.getCurso().getNombre()
-        );
-
+        var detalle = topicoService.obtenerDetalle(id);
         return ResponseEntity.ok(detalle);
     }
 
+//    @PutMapping("/{id}")
+//    //public ResponseEntity<DatosRespuestaRegistroTopico> actualizarTopico(
+//    public ResponseEntity<?> actualizarTopico(
+//            @PathVariable Long id,
+//            @RequestBody @Valid DatosActualizarTopico datos) {
+//
+//        var topicoOptional = topicoRepository.findById(id);
+//
+//        if (topicoOptional.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
+//
+//        if (duplicado) {
+//            //return ResponseEntity.status(409).body("Ya existe un tópico con el mismo título y mensaje.");
+//            return ResponseEntity.status(409).build();
+//        }
+//
+//        // ✅ Validación segura del enum
+//        StatusTopico nuevoStatus;
+//        try {
+//            nuevoStatus = StatusTopico.valueOf(datos.status());
+//        } catch (IllegalArgumentException e) {
+//            //return ResponseEntity.badRequest().body(null); // O puedes devolver un mensaje con ResponseEntity<String>
+//            return ResponseEntity.badRequest().body("Status invalido: " + datos.status()); // O puedes devolver un mensaje con ResponseEntity<String>
+//        }
+//
+//        var cursoOptional = cursoRepository.findById(datos.idCurso());
+//        if(cursoOptional.isEmpty()){
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        var topico = topicoOptional.get();
+//        topico.setTitulo(datos.titulo());
+//        topico.setMensaje(datos.mensaje());
+//        topico.setStatus(StatusTopico.valueOf(datos.status()));
+//
+//        //var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(),datos.mensaje());
+//
+//        topicoRepository.save(topico);
+//
+//        var dtoRespuesta = new DatosRespuestaRegistroTopico(
+//                topico.getId(),
+//                topico.getTitulo(),
+//                topico.getMensaje(),
+//                topico.getFechaCreacion(),
+//                topico.getStatus().toString(),
+//                topico.getAutor().getNombre(),
+//                topico.getCurso().getNombre()
+//        );
+//
+//        //return ResponseEntity.ok("Tópico actualizado correctamente.");
+//        return ResponseEntity.ok(dtoRespuesta);
+//    }
+
     @PutMapping("/{id}")
-    //public ResponseEntity<DatosRespuestaRegistroTopico> actualizarTopico(
     public ResponseEntity<?> actualizarTopico(
             @PathVariable Long id,
             @RequestBody @Valid DatosActualizarTopico datos) {
-
-        var topicoOptional = topicoRepository.findById(id);
-
-        if (topicoOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
-
-        if (duplicado) {
-            //return ResponseEntity.status(409).body("Ya existe un tópico con el mismo título y mensaje.");
-            return ResponseEntity.status(409).build();
-        }
-
-        // ✅ Validación segura del enum
-        StatusTopico nuevoStatus;
-        try {
-            nuevoStatus = StatusTopico.valueOf(datos.status());
-        } catch (IllegalArgumentException e) {
-            //return ResponseEntity.badRequest().body(null); // O puedes devolver un mensaje con ResponseEntity<String>
-            return ResponseEntity.badRequest().body("Status invalido: " + datos.status()); // O puedes devolver un mensaje con ResponseEntity<String>
-        }
-
-        var cursoOptional = cursoRepository.findById(datos.idCurso());
-        if(cursoOptional.isEmpty()){
-            return ResponseEntity.badRequest().build();
-        }
-
-        var topico = topicoOptional.get();
-        topico.setTitulo(datos.titulo());
-        topico.setMensaje(datos.mensaje());
-        topico.setStatus(StatusTopico.valueOf(datos.status()));
-
-        //var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(),datos.mensaje());
-
-        topicoRepository.save(topico);
-
-        var dtoRespuesta = new DatosRespuestaRegistroTopico(
-                topico.getId(),
-                topico.getTitulo(),
-                topico.getMensaje(),
-                topico.getFechaCreacion(),
-                topico.getStatus().toString(),
-                topico.getAutor().getNombre(),
-                topico.getCurso().getNombre()
-        );
-
-        //return ResponseEntity.ok("Tópico actualizado correctamente.");
-        return ResponseEntity.ok(dtoRespuesta);
+        return topicoService.actualizar(id, datos);
     }
 
 
