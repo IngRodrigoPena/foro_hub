@@ -125,6 +125,19 @@ public class TopicoService {
         return ResponseEntity.ok(dtoRespuesta);
     }
 
+    public ResponseEntity<Void> eliminar(Long id) {
+        var topicoOptional = topicoRepository.findById(id);
+
+        if (topicoOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var topico = topicoOptional.get();
+        topico.setActivo(false);
+        topicoRepository.save(topico);
+
+        return ResponseEntity.noContent().build(); // 204 No Content
+    }
 
 
 }

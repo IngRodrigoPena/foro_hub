@@ -106,68 +106,18 @@ public class TopicoController {
         return ResponseEntity.ok(detalle);
     }
 
-//    @PutMapping("/{id}")
-//    //public ResponseEntity<DatosRespuestaRegistroTopico> actualizarTopico(
-//    public ResponseEntity<?> actualizarTopico(
-//            @PathVariable Long id,
-//            @RequestBody @Valid DatosActualizarTopico datos) {
-//
-//        var topicoOptional = topicoRepository.findById(id);
-//
-//        if (topicoOptional.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
-//
-//        if (duplicado) {
-//            //return ResponseEntity.status(409).body("Ya existe un tópico con el mismo título y mensaje.");
-//            return ResponseEntity.status(409).build();
-//        }
-//
-//        // ✅ Validación segura del enum
-//        StatusTopico nuevoStatus;
-//        try {
-//            nuevoStatus = StatusTopico.valueOf(datos.status());
-//        } catch (IllegalArgumentException e) {
-//            //return ResponseEntity.badRequest().body(null); // O puedes devolver un mensaje con ResponseEntity<String>
-//            return ResponseEntity.badRequest().body("Status invalido: " + datos.status()); // O puedes devolver un mensaje con ResponseEntity<String>
-//        }
-//
-//        var cursoOptional = cursoRepository.findById(datos.idCurso());
-//        if(cursoOptional.isEmpty()){
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        var topico = topicoOptional.get();
-//        topico.setTitulo(datos.titulo());
-//        topico.setMensaje(datos.mensaje());
-//        topico.setStatus(StatusTopico.valueOf(datos.status()));
-//
-//        //var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(),datos.mensaje());
-//
-//        topicoRepository.save(topico);
-//
-//        var dtoRespuesta = new DatosRespuestaRegistroTopico(
-//                topico.getId(),
-//                topico.getTitulo(),
-//                topico.getMensaje(),
-//                topico.getFechaCreacion(),
-//                topico.getStatus().toString(),
-//                topico.getAutor().getNombre(),
-//                topico.getCurso().getNombre()
-//        );
-//
-//        //return ResponseEntity.ok("Tópico actualizado correctamente.");
-//        return ResponseEntity.ok(dtoRespuesta);
-//    }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarTopico(
             @PathVariable Long id,
             @RequestBody @Valid DatosActualizarTopico datos) {
         return topicoService.actualizar(id, datos);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTopico(@PathVariable Long id) {
+        return topicoService.eliminar(id);
+    }
+
 
 
 }
