@@ -106,12 +106,7 @@ public class TopicoController {
         return ResponseEntity.ok(detalle);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> actualizarTopico(
-//            @PathVariable Long id,
-//            @RequestBody @Valid DatosActualizarTopico datos) {
-//        return topicoService.actualizar(id, datos);
-//    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<DatosRespuestaRegistroTopico> actualizarTopico(
