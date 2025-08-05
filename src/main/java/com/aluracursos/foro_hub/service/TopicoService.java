@@ -1,4 +1,5 @@
 package com.aluracursos.foro_hub.service;
+import com.aluracursos.foro_hub.domain.Curso;
 import com.aluracursos.foro_hub.domain.Topico;
 import com.aluracursos.foro_hub.domain.enums.StatusTopico;
 import com.aluracursos.foro_hub.dto.request.DatosActualizarTopico;
@@ -6,6 +7,8 @@ import com.aluracursos.foro_hub.dto.request.DatosRegistroTopico;
 import com.aluracursos.foro_hub.dto.response.DatosDetalleTopico;
 import com.aluracursos.foro_hub.dto.response.DatosListadoTopico;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroTopico;
+import com.aluracursos.foro_hub.infra.errores.IntegridadDuplicadaException;
+import com.aluracursos.foro_hub.infra.errores.ValidacionExcepcion;
 import com.aluracursos.foro_hub.repository.CursoRepository;
 import com.aluracursos.foro_hub.repository.TopicoRepository;
 import com.aluracursos.foro_hub.repository.UsuarioRepository;
@@ -79,40 +82,66 @@ public class TopicoService {
         );
     }
 
-    public ResponseEntity<?> actualizar(Long id, DatosActualizarTopico datos) {
+//    public ResponseEntity<?> actualizar(Long id, DatosActualizarTopico datos) {
+//
+//        var topicoOptional = topicoRepository.findById(id);
+//        if (topicoOptional.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
+//        if (duplicado) {
+//            return ResponseEntity.status(409).build();
+//        }
+//
+//        // ✅ Validación segura del enum
+//        StatusTopico nuevoStatus;
+//        try {
+//            nuevoStatus = StatusTopico.valueOf(datos.status());
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.badRequest().body("Status invalido: " + datos.status());
+//        }
+//
+//        var cursoOptional = cursoRepository.findById(datos.idCurso());
+//        if (cursoOptional.isEmpty()) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        var topico = topicoOptional.get();
+//        topico.setTitulo(datos.titulo());
+//        topico.setMensaje(datos.mensaje());
+//        topico.setStatus(nuevoStatus);
+//        topico.setCurso(cursoOptional.get());
+//
+//        topicoRepository.save(topico);
+//
+//        var dtoRespuesta = new DatosRespuestaRegistroTopico(
+//                topico.getId(),
+//                topico.getTitulo(),
+//                topico.getMensaje(),
+//                topico.getFechaCreacion(),
+//                topico.getStatus().toString(),
+//                topico.getAutor().getNombre(),
+//                topico.getCurso().getNombre()
+//        );
+//
+//        return ResponseEntity.ok(dtoRespuesta);
+//    }
 
-        var topicoOptional = topicoRepository.findById(id);
-        if (topicoOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public DatosRespuestaRegistroTopico actualizar(Long id, DatosActualizarTopico datos) {
+        var topico = obtenerTopicoPorId(id);
+        validarDuplicado(datos.titulo(), datos.mensaje());
+        var nuevoStatus = validarStatus(datos.status());
+        var curso = obtenerCursoPorId(datos.idCurso());
 
-        var duplicado = topicoRepository.existsByTituloAndMensaje(datos.titulo(), datos.mensaje());
-        if (duplicado) {
-            return ResponseEntity.status(409).build();
-        }
-
-        // ✅ Validación segura del enum
-        StatusTopico nuevoStatus;
-        try {
-            nuevoStatus = StatusTopico.valueOf(datos.status());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Status invalido: " + datos.status());
-        }
-
-        var cursoOptional = cursoRepository.findById(datos.idCurso());
-        if (cursoOptional.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        var topico = topicoOptional.get();
         topico.setTitulo(datos.titulo());
         topico.setMensaje(datos.mensaje());
         topico.setStatus(nuevoStatus);
-        topico.setCurso(cursoOptional.get());
+        topico.setCurso(curso);
 
         topicoRepository.save(topico);
 
-        var dtoRespuesta = new DatosRespuestaRegistroTopico(
+        return new DatosRespuestaRegistroTopico(
                 topico.getId(),
                 topico.getTitulo(),
                 topico.getMensaje(),
@@ -121,9 +150,8 @@ public class TopicoService {
                 topico.getAutor().getNombre(),
                 topico.getCurso().getNombre()
         );
-
-        return ResponseEntity.ok(dtoRespuesta);
     }
+
 
     public ResponseEntity<Void> eliminar(Long id) {
         var topicoOptional = topicoRepository.findById(id);
@@ -138,6 +166,32 @@ public class TopicoService {
 
         return ResponseEntity.noContent().build(); // 204 No Content
     }
+
+    //Metodos de validacion privados
+    private Topico obtenerTopicoPorId(Long id) {
+        return topicoRepository.findById(id)
+                .orElseThrow(() -> new ValidacionExcepcion("Tópico no encontrado con ID: " + id));
+    }
+
+    private void validarDuplicado(String titulo, String mensaje) {
+        if (topicoRepository.existsByTituloAndMensaje(titulo, mensaje)) {
+            throw new IntegridadDuplicadaException("Ya existe un tópico con el mismo título y mensaje.");
+        }
+    }
+
+    private StatusTopico validarStatus(String status) {
+        try {
+            return StatusTopico.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            throw new ValidacionExcepcion("Status inválido: " + status);
+        }
+    }
+
+    private Curso obtenerCursoPorId(Long idCurso) {
+        return cursoRepository.findById(idCurso)
+                .orElseThrow(() -> new ValidacionExcepcion("Curso no encontrado con ID: " + idCurso));
+    }
+
 
 
 }
