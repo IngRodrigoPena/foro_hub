@@ -55,7 +55,7 @@ Permite registrar, listar, actualizar y eliminar tópicos, así como gestionar u
 
 ## Diagrama Entidad-Relación (DER)
 
-![Diagrama ER](docs/foro_hub_erd.png)
+![Diagrama ER](docs/assets/foro_hub_erd.png)
 
 
 ## Script SQL para creación de tablas
