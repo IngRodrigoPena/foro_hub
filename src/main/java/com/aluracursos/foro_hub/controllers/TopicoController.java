@@ -70,6 +70,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -83,7 +84,14 @@ public class TopicoController {
     @Autowired
     private CursoRepository cursoRepository;
 
-
+    //v04 Devolviendo el codigo HTTP 201
+    //2.	Uso de ResponseEntity:
+    //o	Se utiliza ResponseEntity.created()
+    //para devolver el código HTTP 201.
+    //o	Es necesario devolver dos cosas importantes:
+    //	Cuerpo (body): los datos del médico recién creado.
+    //	Encabezado (header) Location: la URI del nuevo recurso creado.
+    @Transactional
     @PostMapping
     public ResponseEntity<DatosRespuestaRegistroTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
         var respuesta = topicoService.registrar(datos);

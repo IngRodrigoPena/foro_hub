@@ -18,14 +18,17 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Service
 public class TokenService {
 
-    //@Value("${api.security.secret}")
+
     @Value("${foro_hub.jwt.secret}")
     private String claveSecreta;
 
+    @Value("${foro_hub.jwt.expiration}")
+    private long duracionToken;
+
+
     public String generarToken(Usuario usuario) {
         Date ahora = new Date();
-        long duracion = 1000 * 60 * 60 * 24; // 24 horas
-        Date expiracion = new Date(ahora.getTime() + duracion);
+        Date expiracion = new Date(ahora.getTime() + duracionToken);
 
         // Convertir tu clave secreta a Key usando HS256
         Key key = Keys.hmacShaKeyFor(claveSecreta.getBytes());
