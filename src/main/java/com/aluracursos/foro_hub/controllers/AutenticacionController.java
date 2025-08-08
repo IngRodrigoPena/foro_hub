@@ -4,6 +4,7 @@ import com.aluracursos.foro_hub.domain.Usuario;
 import com.aluracursos.foro_hub.dto.request.DatosLogin;
 import com.aluracursos.foro_hub.dto.response.DatosJWT;
 import com.aluracursos.foro_hub.exception.ErrorResponse;
+import com.aluracursos.foro_hub.service.LoginService;
 import com.aluracursos.foro_hub.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -24,25 +25,17 @@ import java.time.LocalDateTime;
 @RequestMapping("/login")
 public class AutenticacionController {
 
-    private final AuthenticationManager authenticationManager;
-    private final TokenService tokenService;
+    private final LoginService loginService;
 
-    public AutenticacionController(AuthenticationManager authenticationManager, TokenService tokenService) {
-        this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
+    public AutenticacionController(LoginService loginService) {
+        this.loginService = loginService;
     }
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody @Valid DatosLogin datosLogin, HttpServletRequest request) {
-
         try {
-            var authToken = new UsernamePasswordAuthenticationToken(datosLogin.correo(), datosLogin.contrasena());
-            var authentication = authenticationManager.authenticate(authToken);
-
-            var usuario = (Usuario) authentication.getPrincipal();
-            var jwt = tokenService.generarToken(usuario);
-
-            return ResponseEntity.ok(new DatosJWT(jwt));
+            var datosJwt = loginService.autenticar(datosLogin);
+            return ResponseEntity.ok(datosJwt);
 
         } catch (BadCredentialsException | UsernameNotFoundException ex) {
             var error = new ErrorResponse(
@@ -66,4 +59,5 @@ public class AutenticacionController {
         }
     }
 }
+
 
