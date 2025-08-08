@@ -13,11 +13,13 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class TokenService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     @Value("${foro_hub.jwt.secret}")
     private String claveSecreta;
@@ -62,8 +64,8 @@ public class TokenService {
         } catch (ExpiredJwtException | MalformedJwtException | SignatureException |
                  UnsupportedJwtException | IllegalArgumentException e) {
 
-            System.out.println("❌ Token inválido, expirado, mal formado o firmado incorrectamente");
-            // También puedes usar un logger: logger.warn("Token inválido...", e);
+           // System.out.println("❌ Token inválido, expirado, mal formado o firmado incorrectamente");
+            logger.warn("❌ Token inválido, expirado, mal formado o firmado incorrectamente", e);
             return null;
         }
     }
