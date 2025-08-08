@@ -8,9 +8,9 @@ import com.aluracursos.foro_hub.dto.request.DatosRegistroTopico;
 import com.aluracursos.foro_hub.dto.response.DatosDetalleTopico;
 import com.aluracursos.foro_hub.dto.response.DatosListadoTopico;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroTopico;
-import com.aluracursos.foro_hub.infra.errores.IntegridadDuplicadaException;
-import com.aluracursos.foro_hub.infra.errores.RecursoNoEncontradoException;
-import com.aluracursos.foro_hub.infra.errores.ValidacionExcepcion;
+import com.aluracursos.foro_hub.infra.exceptions.IntegridadDuplicadaException;
+import com.aluracursos.foro_hub.infra.exceptions.RecursoNoEncontradoException;
+import com.aluracursos.foro_hub.infra.exceptions.ValidacionExcepcion;
 import com.aluracursos.foro_hub.repository.CursoRepository;
 import com.aluracursos.foro_hub.repository.TopicoRepository;
 import com.aluracursos.foro_hub.repository.UsuarioRepository;
@@ -21,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import com.aluracursos.foro_hub.infra.errores.RecursoNoEncontradoException;
 
 //@Service
 //public class TopicoService {

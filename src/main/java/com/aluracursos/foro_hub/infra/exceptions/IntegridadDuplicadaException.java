@@ -1,4 +1,4 @@
-package com.aluracursos.foro_hub.infra.errores;
+package com.aluracursos.foro_hub.infra.exceptions;
 
 
 public class IntegridadDuplicadaException extends RuntimeException {

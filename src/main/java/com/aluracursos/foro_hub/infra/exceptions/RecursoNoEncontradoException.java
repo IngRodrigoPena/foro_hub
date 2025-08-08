@@ -1,4 +1,4 @@
-package com.aluracursos.foro_hub.infra.errores;
+package com.aluracursos.foro_hub.infra.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

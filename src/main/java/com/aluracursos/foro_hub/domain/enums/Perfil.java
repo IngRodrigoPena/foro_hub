@@ -1,7 +1,15 @@
 package com.aluracursos.foro_hub.domain.enums;
 
-public enum Perfil {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Perfil implements GrantedAuthority {
     ALUMNO,
     INSTRUCTOR,
-    ADMIN
+    ADMIN;
+
+    @Override
+    public String getAuthority() {
+        //return "";
+        return this.name();
+    }
 }

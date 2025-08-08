@@ -5,7 +5,7 @@ import com.aluracursos.foro_hub.domain.Usuario;
 import com.aluracursos.foro_hub.dto.request.DatosRegistroUsuario;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroUsuario;
 import com.aluracursos.foro_hub.repository.UsuarioRepository;
-import com.aluracursos.foro_hub.infra.errores.ValidacionExcepcion;
+import com.aluracursos.foro_hub.infra.exceptions.ValidacionExcepcion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
