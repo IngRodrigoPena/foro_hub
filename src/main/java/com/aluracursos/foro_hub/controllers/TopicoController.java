@@ -72,6 +72,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/topicos")
@@ -84,19 +87,27 @@ public class TopicoController {
     @Autowired
     private CursoRepository cursoRepository;
 
-    //v04 Devolviendo el codigo HTTP 201
-    //2.	Uso de ResponseEntity:
-    //o	Se utiliza ResponseEntity.created()
-    //para devolver el código HTTP 201.
-    //o	Es necesario devolver dos cosas importantes:
-    //	Cuerpo (body): los datos del médico recién creado.
-    //	Encabezado (header) Location: la URI del nuevo recurso creado.
+//    @Transactional
+//    @PostMapping
+//    public ResponseEntity<DatosRespuestaRegistroTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
+//        var respuesta = topicoService.registrar(datos);
+//        return ResponseEntity.status(201).body(respuesta);
+//    }
+
     @Transactional
     @PostMapping
     public ResponseEntity<DatosRespuestaRegistroTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
         var respuesta = topicoService.registrar(datos);
-        return ResponseEntity.status(201).body(respuesta);
+
+        URI url = ServletUriComponentsBuilder
+                .fromCurrentRequest() // http://localhost:8080/topicos
+                .path("/{id}")
+                .buildAndExpand(respuesta.id()) // aquí usamos el id del nuevo tópico
+                .toUri();
+
+        return ResponseEntity.created(url).body(respuesta);
     }
+
 
     @GetMapping
     public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(
