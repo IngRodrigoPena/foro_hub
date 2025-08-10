@@ -1,40 +1,75 @@
 
-# ForoHub - API RESTful para un foro de discusión
-![Foro sobre temas de Tecnologia,programacion, IA...](docs/assets/58974.jpg)
-## Descripción
+# 🗨️ ForoHub - API RESTful para un foro de discusión
 
-ForoHub es una aplicación backend desarrollada con Spring Boot que permite gestionar un foro de discusión con cursos, tópicos, usuarios y respuestas.  
-Permite registrar, listar, actualizar y eliminar tópicos, así como gestionar usuarios, cursos y respuestas relacionadas.
+![Foro sobre temas de Tecnología, Programación, IA...](docs/assets/58974.jpg)
 
----
-
-## Tecnologías usadas
-
-- Java 21
-- Spring Boot 3
-- Spring Data JPA
-- Hibernate
-- PostgreSQL
-- Maven
-- Insomnia / Postman (para pruebas de API)
+![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-green)
+![Licencia](https://img.shields.io/badge/Licencia-MIT-blue)
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-brightgreen)
 
 ---
 
-## Instrucciones para correr el proyecto
+## 📑 Tabla de Contenidos
+1. [Descripción](#descripción)
+2. [Tecnologías usadas](#tecnologías-usadas)
+3. [Instrucciones para correr el proyecto](#instrucciones-para-correr-el-proyecto)
+4. [Estructura de la Base de Datos](#estructura-de-la-base-de-datos)
+5. [Diagrama Entidad-Relación (DER)](#diagrama-entidad-relación-der)
+6. [Script SQL de creación de tablas](#script-sql-para-creación-de-tablas)
+7. [Endpoints principales](#endpoints-principales)
+8. [Flujo general](#flujo-general)
+9. [Autor](#autor)
+10. [Licencia](#licencia)
 
+---
+
+## 📌 Descripción
+
+**ForoHub** es una API RESTful que permite gestionar un foro de discusión enfocado en temas de **tecnología, programación e inteligencia artificial**.  
+Ofrece endpoints para **crear, listar, actualizar y eliminar** tópicos, cursos, usuarios y respuestas.  
+Está desarrollada con **Spring Boot** siguiendo buenas prácticas de arquitectura y seguridad.
+
+---
+
+## 🛠 Tecnologías usadas
+
+- **Java 21**
+- **Spring Boot 3**
+- **Spring Data JPA**
+- **Hibernate**
+- **PostgreSQL**
+- **Maven**
+- **Insomnia / Postman** (para pruebas de API)
+
+---
+
+## 🚀 Instrucciones para correr el proyecto
+
+### Requisitos previos
+- Tener instalado **Java 21** y **Maven**.
+- Tener una base de datos **PostgreSQL** en ejecución.
+- Configurar credenciales de base de datos en `src/main/resources/application.properties`.
+
+### Pasos
 1. Clonar el repositorio:
    ```bash
    git clone https://github.com/tuusuario/foro_hub.git
    cd foro_hub
-2. Configurar la conexión a la base de datos en src/main/resources/application.properties
-
+2. Configurar conexión a la base de datos:
+```bash
+spring.datasource.url=jdbc:postgresql://localhost:5432/foro_hub
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+```
 3. Ejecutar la aplicación:
-   ./mvnw spring-boot:run
-
-4. Usar Insomnia o Postman para probar los endpoints REST disponibles.
+```
+./mvnw spring-boot:run
+```
+4. Probar los endpoints usando Insomnia o Postman.
 
 ## Estructura de la Base de Datos
- Tablas y campos principales
+Tablas y campos principales
 
 | Tabla         | Campos principales                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------- |
@@ -59,7 +94,6 @@ Permite registrar, listar, actualizar y eliminar tópicos, así como gestionar u
 
 
 ## Script SQL para creación de tablas
-
 
 ```sql
 Copiar
@@ -105,32 +139,30 @@ FOREIGN KEY (autor_id) REFERENCES usuario(id),
 FOREIGN KEY (topico_id) REFERENCES topico(id)
 );
 Endpoints principales
-Recurso	Métodos disponibles
-/topicos	GET, POST, PUT, DELETE
-/usuarios	(pendiente de implementar)
-/cursos	(pendiente de implementar)
-/respuestas	(pendiente de implementar)
+Recurso Métodos disponibles
+/topicos    GET, POST, PUT, DELETE
+/usuarios   (pendiente de implementar)
+/cursos (pendiente de implementar)
+/respuestas (pendiente de implementar)
 ```
-## Flujo general
-- Los usuarios crean y administran tópicos relacionados con un curso específico.
+## 🔗 Endpoints principales
+| Recurso       | Métodos disponibles    | Estado         |
+| ------------- | ---------------------- | -------------- |
+| `/topicos`    | GET, POST, PUT, DELETE | ✅ Implementado |
+| `/usuarios`   | GET, POST, PUT, DELETE | 🚧 Pendiente   |
+| `/cursos`     | GET, POST, PUT, DELETE | 🚧 Pendiente   |
+| `/respuestas` | GET, POST, PUT, DELETE | 🚧 Pendiente   |
 
-- Otros usuarios pueden responder a esos tópicos.
+## 🔄 Flujo general
+1. Los usuarios crean y administran tópicos relacionados con un curso específico.
+2. Otros usuarios pueden responder a esos tópicos.
+3. Los tópicos tienen un estado (status) para indicar si están abiertos, resueltos, cerrados, etc.
 
-- Los tópicos tienen un estado (status) para indicar si están abiertos, resueltos, cerrados, etc.
+## 👤 Autor
+Ing. Rodrigo Peña
 
-## Autor
-Rodrigo Peña
-
-
-
-## Licencia
+## 📜 Licencia
 Este proyecto está bajo la licencia MIT.
-
-```
-![Static Badge](https://img.shields.io/badge/!%5BEn%20Desarollo%5D(STATUS-EN%20DESAROLLO-green))
-
-
-```
 
 
 
