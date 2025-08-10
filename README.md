@@ -1,6 +1,6 @@
 
 # ForoHub - API RESTful para un foro de discusión
-
+![Foro sobre temas de Tecnologia,programacion, IA...](docs/assets/58974.jpg)
 ## Descripción
 
 ForoHub es una aplicación backend desarrollada con Spring Boot que permite gestionar un foro de discusión con cursos, tópicos, usuarios y respuestas.  
@@ -121,8 +121,16 @@ Recurso	Métodos disponibles
 ## Autor
 Rodrigo Peña
 
+
+
 ## Licencia
 Este proyecto está bajo la licencia MIT.
+
+```
+![Static Badge](https://img.shields.io/badge/!%5BEn%20Desarollo%5D(STATUS-EN%20DESAROLLO-green))
+
+
+```
 
 
 
