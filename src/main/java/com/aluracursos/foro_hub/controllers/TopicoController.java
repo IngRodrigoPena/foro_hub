@@ -73,7 +73,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 
 @RestController
@@ -86,13 +85,6 @@ public class TopicoController {
     private TopicoRepository topicoRepository;
     @Autowired
     private CursoRepository cursoRepository;
-
-//    @Transactional
-//    @PostMapping
-//    public ResponseEntity<DatosRespuestaRegistroTopico> registrarTopico(@RequestBody @Valid DatosRegistroTopico datos) {
-//        var respuesta = topicoService.registrar(datos);
-//        return ResponseEntity.status(201).body(respuesta);
-//    }
 
     @Transactional
     @PostMapping
@@ -107,7 +99,6 @@ public class TopicoController {
 
         return ResponseEntity.created(url).body(respuesta);
     }
-
 
     @GetMapping
     public ResponseEntity<Page<DatosListadoTopico>> listarTopicos(
@@ -125,8 +116,6 @@ public class TopicoController {
         return ResponseEntity.ok(detalle);
     }
 
-
-
     @PutMapping("/{id}")
     public ResponseEntity<DatosRespuestaRegistroTopico> actualizarTopico(
             @PathVariable Long id,
@@ -135,12 +124,9 @@ public class TopicoController {
         return ResponseEntity.ok(respuesta);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarTopico(@PathVariable Long id) {
         return topicoService.eliminar(id);
     }
-
-
 
 }
