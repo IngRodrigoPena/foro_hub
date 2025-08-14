@@ -158,6 +158,68 @@ Recurso Métodos disponibles
 2. Otros usuarios pueden responder a esos tópicos.
 3. Los tópicos tienen un estado (status) para indicar si están abiertos, resueltos, cerrados, etc.
 
+# 📄 Documentación de la API con SpringDoc OpenAPI
+Este proyecto utiliza SpringDoc OpenAPI para generar automáticamente la documentación interactiva de la API REST y permitir su prueba directa desde el navegador.
+
+### 1️⃣ Dependencia Maven
+En el archivo pom.xml, agrega:
+
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.5.0</version>
+</dependency>
+```
+
+💡 La versión puede variar. 
+Consulta la última en Maven Central.
+________________________________________
+### 2️⃣ Configuración en application.properties
+## URL personalizada para Swagger UI
+```
+springdoc.swagger-ui.path=/swagger-ui.html
+```
+## URL para el documento JSON de OpenAPI
+```
+springdoc.api-docs.path=/v3/api-docs
+```
+________________________________________
+### #️⃣ Configuración de metadatos de la API
+Crea un archivo SpringDocConfig.java en el paquete config:
+```
+package com.aluracursos.foro_hub.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SpringDocConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("ForoHub API")
+                        .version("1.0.0")
+                        .description("Documentación interactiva de la API ForoHub con OpenAPI 3 y SpringDoc"));
+    }
+}
+```
+________________________________________
+### 4️⃣ Acceder a la documentación
+•	Swagger UI: http://localhost:8080/swagger-ui.html
+
+•	Documento OpenAPI (JSON): http://localhost:8080/v3/api-docs
+________________________________________
+### 5️⃣ Ejemplo visual
+________________________________________
+💡 Con esta configuración, cada vez que ejecutes el proyecto, podrás ver y probar todos los endpoints de ForoHub desde el navegador, sin necesidad de Postman.
+________________________________________
+
+
 ## 👤 Autor
 Ing. Rodrigo Peña
 
