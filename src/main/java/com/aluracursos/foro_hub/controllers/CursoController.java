@@ -50,12 +50,14 @@ import com.aluracursos.foro_hub.dto.request.DatosRegistroCurso;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroCurso;
 
 import com.aluracursos.foro_hub.service.CursoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cursos")
+@SecurityRequirement(name = "bearer-key")
 public class CursoController {
 
     @Autowired

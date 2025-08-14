@@ -30,12 +30,14 @@ package com.aluracursos.foro_hub.controllers;
 import com.aluracursos.foro_hub.dto.request.DatosRegistroUsuario;
 import com.aluracursos.foro_hub.dto.response.DatosRespuestaRegistroUsuario;
 import com.aluracursos.foro_hub.service.UsuarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     @Autowired
